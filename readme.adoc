@@ -1,0 +1,92 @@
+= Collection of Useful Datasets to be Imported and Used with Neo4j
+
+== How to provide a Dataset Example
+
+1. find a dataset that's relevant and interesting and not too huge (around 10M nodes/rels max) so it's feasible to import quickly for a user
+2. describe the dataset in a few sentences
+3. explain where it originates from and perhaps the original format
+3. provide a schema picture for the target graph model
+4. provide steps to get the source files and where to put them e.g. into `import` directory (if loading from the original URL is not feasible)
+4. explain necessary neo4j config changes (e.g. setting min/max heap to 2G or setting page-cache to 2-4G depdending on the dataset)
+5. provide load scripts for load csv. with necessary indexes / constraints created upfront
+   - explain any non-obvious transformations or conversions
+5. provide 3-5 use-case queries on the imported dataset, add explanations and pictures as needed
+6. put all that content into an asciidoc file (formatting help here: )
+7. put that file into a directory of this github repository (pull request: https://github.com/neo4j-examples/neo4j-example-graph-datasets)
+7. have someone review that PR and help you generate a browser guide (for https://guides.neo4j.com/datasets/your-dataset ) and optionally a GraphGist
+8. If all is good your dataset can be included in http://neo4j.com/developer/example-data
+
+== How to create a Browser-Guide/GraphGist
+
+You create a Guide by creating a file in http://asciidoctor.org/docs/asciidoc-quick-reference/[AsciiDoc] syntax.
+
+This section shows the basics of using AsciiDoc syntax and a few additions for https://neo4j.com/developer/guide-create-neo4j-browser-guide/[custom Browser Guides].
+
+Please write one sentence per line, up to the punctuation mark, that makes it much easier to diff the changes.
+
+=== Define a Cypher query
+
+ [source,cypher]
+ ----
+ CREATE (n{name:'cypher'})-[r:LIKES]->({name:'icecream'}) return n.name, r
+ ----
+
+becomes:
+
+[source,cypher]
+----
+CREATE (n{name:'cypher'})-[r:LIKES]->({name:'icecream'}) return n.name, r
+----
+
+Those queries become clickable areas in a Browser Guide that the user can run.
+
+If they have multi-statement mode enabled in Neo4j browser, you can add multiple statements separated by semicolon `;` at the end of line.
+That's especially useful for creating indexes/constraints etc.
+
+=== Basic AsciiDoc formatting
+
+[width="50%",cols="1m,1a"]
+|===
+| \_Italic_ | _Italic_
+| \*Bold* | *Bold*
+| \`Monospace` | `Monospace`
+| `http://neo4j.com/` | http://neo4j.com/
+| `http://neo4j.com/[neo4j.com]` | http://www.neo4j.com/[neo4j.com]
+| `link:./readme.adoc[Link to a File]` | link:./readme.adoc[Link to a File]
+|===
+
+Headings:
+
+ = Heading 1
+ == Heading 2
+ === Heading 3
+
+Images:
+
+ image::http://assets.neo4j.org/img/still/cineasts.gif[]
+
+image::http://assets.neo4j.org/img/still/cineasts.gif[]
+
+----
+* Item 1
+** Item 1.1
+* Item 2
+----
+
+* Item 1
+** Item 1.1
+* Item 2
+
+----
+. First
+. Second
+----
+
+. First
+. Second
+
+Monospaced block: indent lines with one space.
+
+Tables are well supported.
+
+See http://asciidoctor.org/docs/asciidoc-quick-reference/[AsciiDoc Quick Reference] for information on that and more.
